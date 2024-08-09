@@ -3,12 +3,12 @@ import 'package:fire/Features/Posts/Data/Models/post_model.dart';
 
 abstract class PostsRemoteDataSource {
   Future<List<PostModel>>getAllPost();
-  Future<Unit>odeletPost();
-  Future<Unit>dPost();
+  Future<Unit>deletPost(int PostId);
+  Future<Unit>addPost(PostModel post);
 }
 class PostRemoTeDataSourceImpl extends PostsRemoteDataSource{
   @override
-  Future<Unit> dPost() {
+  Future<Unit> addPost(PostModel post) {
     // TODO: implement dPost
     throw UnimplementedError();
   }
@@ -20,7 +20,7 @@ class PostRemoTeDataSourceImpl extends PostsRemoteDataSource{
   }
 
   @override
-  Future<Unit> odeletPost() {
+  Future<Unit> deletPost(int PostId) {
     // TODO: implement odeletPost
     throw UnimplementedError();
   }
