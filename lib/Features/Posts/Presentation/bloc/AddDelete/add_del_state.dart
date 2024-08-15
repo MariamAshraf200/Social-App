@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:fire/Features/Posts/Domain/Entities/post_entity.dart';
+
 
 abstract class AddDelState extends Equatable {
   const AddDelState();
