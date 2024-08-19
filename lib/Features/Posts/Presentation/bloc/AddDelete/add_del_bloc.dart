@@ -16,16 +16,13 @@ class AddDelBloc extends Bloc<AddDelEvent, AddDelState> {
       if (event is AddPostEvent) {
         emit(LoadingAddDeletPost());
         final failureOrMessage = await addPost(event.posts);
-        failureOrMessage.fold((failure) {
-          emit(ErrorAddDeletPost(message: failureMessage(failure)));
-        }, (_) {
-          emit(LoadedAddDeletPost(message: addSucessMessage));
-        });
+
+        emit(ErrorOrMessage(failureOrMessage, addSucessMessage));
       } else if (event is DeletePostEvent) {
         emit(LoadingAddDeletPost());
         final failureOrMessage = await deletPost(event.postId);
 
-      //ToDo  emit(ErrorOrMessage(, delSucessMessage));
+        emit(ErrorOrMessage(failureOrMessage, delSucessMessage));
       }
     }
   }
@@ -36,7 +33,6 @@ class AddDelBloc extends Bloc<AddDelEvent, AddDelState> {
       return LoadedAddDeletPost(message: message);
     });
   }
-
 
   String failureMessage(Failures failure) {
     switch (failure.runtimeType) {
@@ -51,4 +47,3 @@ class AddDelBloc extends Bloc<AddDelEvent, AddDelState> {
     }
   }
 }
-
