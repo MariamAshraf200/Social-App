@@ -1,46 +1,63 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
+
 import 'package:dartz/dartz.dart';
 import 'package:fire/Features/Posts/Data/Models/post_model.dart';
+import 'package:fire/global/Errors/exceptions.dart';
+import 'package:http/http.dart' as http;
 
 abstract class PostsRemoteDataSource {
-  Future<List<PostModel>>getAllPost();
-  Future<Unit>deletPost(int PostId);
-  Future<Unit>addPost(PostModel post);
+  Future<List<PostModel>> getAllPosts();
+  Future<Unit> deletePost(String postId);
+  Future<Unit> addPost(PostModel post);
 }
-class PostRemoTeDataSourceImpl extends PostsRemoteDataSource{
-  final FirebaseFirestore firestore;
 
-  PostRemoTeDataSourceImpl({required this.firestore});
+const Base_Url = 'https://jsonplaceholder.typicode.com';
+
+class PostsRemoteDataSourceImpl implements PostsRemoteDataSource {
+  final http.Client client;
+  PostsRemoteDataSourceImpl({required this.client});
+  @override
+  Future<List<PostModel>> getAllPosts() async {
+    final response = await client.get(Uri.parse('$Base_Url/posts'),
+        headers: {"Content-Type": "application/json"});
+    if (response.statusCode == 200) {
+      final List decodedJson = json.decode(response.body) as List;
+      final List<PostModel> postModels = decodedJson
+          .map<PostModel>((jsonPostModel) => PostModel.fromjson(jsonPostModel))
+          .toList();
+      return postModels;
+    } else {
+      throw serverExceptions();
+    }
+  }
+
   @override
   Future<Unit> addPost(PostModel post) async {
-    try {
-      await firestore.collection('posts').doc(post.postId).set(
-          post.tojson());
-      return unit;
-    } catch(e){
-      throw Exception('faild add post : $e ');
-    }
+    final body = {
+      'title': post.title,
+      'body': post.body,
+    };
 
+    final response =
+        await client.post(Uri.parse('$Base_Url/posts/'), body: body);
+
+    if (response.statusCode == 201) {
+      return Future.value(unit);
+    } else {
+      throw serverExceptions();
+    }
   }
+
   @override
-  Future<List<PostModel>> getAllPost() async {
-    try {
-      final querySnapshot = await firestore.collection('posts').get();
-      return querySnapshot.docs
-          .map((doc) => PostModel.fromjson(doc.data()))
-          .toList();
-    } catch (e) {
-      throw Exception('Failed to get posts: $e');
+  Future<Unit> deletePost(String postId) async {
+    final response = await client.delete(
+        Uri.parse('$Base_Url/posts${postId.toString()}'),
+        headers: {"Content-Type": "application/json"});
+
+    if (response.statusCode == 200) {
+      return Future.value(unit);
+    } else {
+      throw serverExceptions();
     }
   }
-
-  Future<Unit> deletPost(int postId) async {
-    try {
-      await firestore.collection('posts').doc(postId.toString()).delete();
-      return unit;
-    } catch (e) {
-      throw Exception('Failed to delete post: $e');
-    }
-  }
-
 }

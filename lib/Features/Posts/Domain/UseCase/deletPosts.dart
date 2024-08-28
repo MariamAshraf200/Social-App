@@ -1,7 +1,7 @@
 
 import 'package:dartz/dartz.dart';
 import 'package:fire/Features/Posts/Domain/Reposatories/post_repo.dart';
-import 'package:fire/global/failures.dart';
+import 'package:fire/global/Errors/failures.dart';
 
 class deletPostUseCase{
   final PostRepo repo;

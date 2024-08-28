@@ -4,8 +4,8 @@ import 'package:fire/Features/Posts/Data/DataSource/remote_data.dart';
 import 'package:fire/Features/Posts/Data/Models/post_model.dart';
 import 'package:fire/Features/Posts/Domain/Entities/post_entity.dart';
 import 'package:fire/Features/Posts/Domain/Reposatories/post_repo.dart';
-import 'package:fire/global/exceptions.dart';
-import 'package:fire/global/failures.dart';
+import 'package:fire/global/Errors/exceptions.dart';
+import 'package:fire/global/Errors/failures.dart';
 import 'package:fire/global/network_info.dart';
 
 class PostRepoImpl implements PostRepo {
@@ -17,15 +17,8 @@ class PostRepoImpl implements PostRepo {
       this.postRemoteDataSource, this.postLocalDataSource, this.networkInfo);
   @override
   Future<Either<Failures, Unit>> addposts(PostsEntity post) async {
-    final PostModel postModel = PostModel(
-        postId: post.postId,
-        name: post.name,
-        uId: post.uId,
-        profilePhoto: post.profilePhoto,
-        postTime: post.postTime,
-        text: post.text,
-        imageUrl: post.imageUrl,
-        likes: post.likes);
+    final PostModel postModel = PostModel(id: post.id,body: post.body,title: post.title
+      );
     return getFunction(() async {
       return await postRemoteDataSource.addPost(postModel);
     });
@@ -34,7 +27,8 @@ class PostRepoImpl implements PostRepo {
   @override
   Future<Either<Failures, Unit>> deleteposts(int id) async {
 return getFunction(() async {
-return  await postRemoteDataSource.deletPost(id);
+return  await postRemoteDataSource.deletePost(id as String);
+
 });
   }
 
@@ -42,7 +36,7 @@ return  await postRemoteDataSource.deletPost(id);
   Future<Either<Failures, List<PostsEntity>>> getallposts() async {
     if (await networkInfo.isConnected) {
       try {
-        final remotePost = await postRemoteDataSource.getAllPost();
+        final remotePost = await postRemoteDataSource.getAllPosts();
         postLocalDataSource.cachPost(remotePost as Future<List<PostModel>>);
         return Right(remotePost);
       } on serverExceptions {

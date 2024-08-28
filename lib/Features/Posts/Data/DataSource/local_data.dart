@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:dartz/dartz.dart';
 import 'package:fire/Features/Posts/Data/Models/post_model.dart';
-import 'package:fire/global/exceptions.dart';
+import 'package:fire/global/Errors/exceptions.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class PostLocalDataSource {
@@ -10,17 +10,11 @@ abstract class PostLocalDataSource {
   Future<Unit> cachPost(Future<List<PostModel>> postModels);
 }
 
-abstract class PostLocalDataSourceImpl extends PostLocalDataSource {
+ class PostLocalDataSourceImpl extends PostLocalDataSource {
   final SharedPreferences sharedPreferencesd;
 
   PostLocalDataSourceImpl({required this.sharedPreferencesd});
-  Future<Unit> cachePost(Future<List<PostModel>> postModels) async {
-    List<PostModel> postModelList = await postModels;
-    List<Map<String, dynamic>> postModelToJson =
-        postModelList.map((postModel1) => postModel1.tojson()).toList();
-    sharedPreferencesd.setString("Cached Post", json.encode(postModelToJson));
-    return Future.value(unit);
-  }
+
 
   @override
   Future<List<PostModel>> getAllCachedPost() {
@@ -33,5 +27,14 @@ abstract class PostLocalDataSourceImpl extends PostLocalDataSource {
       return Future.value(jsonToPostModel);
     }
     throw emptyCachExceptions;
+  }
+
+  @override
+  Future<Unit> cachPost(Future<List<PostModel>> postModels) async {
+    List<PostModel> postModelList = await postModels;
+    List<Map<String, dynamic>> postModelToJson =
+    postModelList.map((postModel1) => postModel1.tojson()).toList();
+    sharedPreferencesd.setString("Cached Post", json.encode(postModelToJson));
+    return Future.value(unit);
   }
 }

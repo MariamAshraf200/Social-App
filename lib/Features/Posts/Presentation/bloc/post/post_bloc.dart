@@ -2,10 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:fire/Features/Posts/Domain/UseCase/getAllPosts.dart';
 import 'package:fire/Features/Posts/Presentation/bloc/post/post_event.dart';
 import 'package:fire/Features/Posts/Presentation/bloc/post/post_status.dart';
-import 'package:fire/global/failures.dart';
-import 'package:fire/global/strings_failure.dart';
+import 'package:fire/global/Errors/failures.dart';
+import 'package:fire/global/strings/strings_failure.dart';
 
-class PostBloc extends Bloc<PostEvent, PostStatus> {
+class PostBloc extends Bloc<PostEvent, PostState> {
   final GetallpostsUseCase getallpostsUseCase;
   PostBloc(this.getallpostsUseCase) : super(PostIntialState()) {
     on<PostEvent>((event, emit) async {

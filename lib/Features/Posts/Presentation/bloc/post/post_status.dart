@@ -1,24 +1,24 @@
 import 'package:equatable/equatable.dart';
 import 'package:fire/Features/Posts/Domain/Entities/post_entity.dart';
 
-abstract class PostStatus extends Equatable {
-  const PostStatus();
+abstract class PostState extends Equatable {
+  const PostState();
   @override
   List<Object?> get props => [];
 }
 
-class PostIntialState extends PostStatus {}
+class PostIntialState extends PostState {}
 
-class PostLoadingState extends PostStatus {}
+class PostLoadingState extends PostState {}
 
-class PostLoadedState extends PostStatus {
+class PostLoadedState extends PostState {
   final List<PostsEntity> posts;
   PostLoadedState({required this.posts});
   @override
   List<Object?> get props => [posts];
 }
 
-class ErrorPostState extends PostStatus {
+class ErrorPostState extends PostState {
   final String message;
 
   ErrorPostState({required this.message});
