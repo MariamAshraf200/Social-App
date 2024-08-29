@@ -8,8 +8,8 @@ class LoadingWidget extends StatelessWidget {
     return const Padding(
       padding: EdgeInsets.symmetric(vertical: 20),
       child: SizedBox(
-        height: 30,
-        width: 30,
+        height: double.infinity,
+        width: double.infinity,
         child: Center(
           child: CircularProgressIndicator(
             color: Colors.grey,

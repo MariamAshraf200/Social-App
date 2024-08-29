@@ -7,9 +7,9 @@ class ErrorDisplayPost extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: MediaQuery.of(context).size.height,
-      child: Center(child: Text(message,textAlign: TextAlign.center,style: TextStyle(fontSize: 25),),),
+      child: Center(child: Text(message,textAlign: TextAlign.center,style: const TextStyle(fontSize: 25),),),
     );
   }
 }

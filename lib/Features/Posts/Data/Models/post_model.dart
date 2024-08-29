@@ -5,9 +5,9 @@ class PostModel extends PostsEntity {
 
   factory PostModel.fromjson(Map<String, dynamic> json) {
     return PostModel(
-      id: json['id'],
-      body: json['body'],
-      title: json['title'],
+      id: json['id'].toString(),
+      body: json['body'] as String,
+      title: json['title'] as String,
     );
   }
 

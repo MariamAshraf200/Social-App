@@ -15,10 +15,14 @@ class PostRepoImpl implements PostRepo {
 
   PostRepoImpl(
       this.postRemoteDataSource, this.postLocalDataSource, this.networkInfo);
+
   @override
   Future<Either<Failures, Unit>> addposts(PostsEntity post) async {
-    final PostModel postModel = PostModel(id: post.id,body: post.body,title: post.title
-      );
+    final PostModel postModel = PostModel(
+      id: post.id,
+      body: post.body,
+      title: post.title,
+    );
     return getFunction(() async {
       return await postRemoteDataSource.addPost(postModel);
     });
@@ -26,10 +30,9 @@ class PostRepoImpl implements PostRepo {
 
   @override
   Future<Either<Failures, Unit>> deleteposts(int id) async {
-return getFunction(() async {
-return  await postRemoteDataSource.deletePost(id as String);
-
-});
+    return getFunction(() async {
+      return await postRemoteDataSource.deletePost(id.toString());
+    });
   }
 
   @override
@@ -37,10 +40,11 @@ return  await postRemoteDataSource.deletePost(id as String);
     if (await networkInfo.isConnected) {
       try {
         final remotePost = await postRemoteDataSource.getAllPosts();
-        postLocalDataSource.cachPost(remotePost as Future<List<PostModel>>);
+        // Await the Future before passing it to the cache
+        await postLocalDataSource.cachPost(remotePost);
         return Right(remotePost);
       } on serverExceptions {
-        return left(serverFailure());
+        return Left(serverFailure());
       }
     } else {
       try {
@@ -51,11 +55,13 @@ return  await postRemoteDataSource.deletePost(id as String);
       }
     }
   }
-  Future<Either<Failures,Unit>> getFunction(Future<Unit>Function() deletOradd) async {
+
+  Future<Either<Failures, Unit>> getFunction(
+      Future<Unit> Function() deletOradd) async {
     if (await networkInfo.isConnected) {
       try {
-await deletOradd();
-        return Right(Unit as Unit);
+        await deletOradd();
+        return Right(unit); // Simply return unit
       } on serverExceptions {
         return Left(serverFailure());
       }
