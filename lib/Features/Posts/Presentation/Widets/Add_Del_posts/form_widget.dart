@@ -8,8 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class FormWidget extends StatelessWidget {
   FormWidget({super.key});
   final _formKKey = GlobalKey<FormState>();
-  TextEditingController _titlecontroller = TextEditingController();
-  TextEditingController _bodycontroller = TextEditingController();
+  final TextEditingController _titlecontroller = TextEditingController();
+  final TextEditingController _bodycontroller = TextEditingController();
 
   void validateAddPost(BuildContext context){
     final isValidate = _formKKey.currentState!.validate();
