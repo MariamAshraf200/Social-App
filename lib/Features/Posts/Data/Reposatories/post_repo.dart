@@ -19,7 +19,6 @@ class PostRepoImpl implements PostRepo {
   @override
   Future<Either<Failures, Unit>> addposts(PostsEntity post) async {
     final PostModel postModel = PostModel(
-      id: post.id,
       body: post.body,
       title: post.title,
     );

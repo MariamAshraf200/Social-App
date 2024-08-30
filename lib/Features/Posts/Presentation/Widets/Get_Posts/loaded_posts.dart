@@ -11,11 +11,6 @@ class LoadedPost extends StatelessWidget {
     return ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
-            leading: Text(posts[index].id,
-                style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.blueAccent)),
             title: Text(
               posts[index].title,
               style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),

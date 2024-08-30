@@ -6,7 +6,7 @@ class ShowSnackBar{
         content: Text(
           message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 15, backgroundColor: Colors.green),
+              color: Colors.white, fontSize: 25, backgroundColor: Colors.green),
         ))
     );
   }
@@ -16,7 +16,7 @@ class ShowSnackBar{
         content: Text(
           message,
           style: const TextStyle(
-              color: Colors.white, fontSize: 15, backgroundColor: Colors.red),
+              color: Colors.white, fontSize: 25, backgroundColor: Colors.red),
         ))
     );
   }
