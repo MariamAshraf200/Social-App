@@ -7,7 +7,7 @@ class deletPostUseCase{
   final PostRepo repo;
 
   deletPostUseCase({required this.repo});
-  Future<Either<Failures,Unit>> call(int PostId) async{
+  Future<Either<Failures,Unit>> call(String PostId) async{
     return await repo.deleteposts(PostId);
 
   }

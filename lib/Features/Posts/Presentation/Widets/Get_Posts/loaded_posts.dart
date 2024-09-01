@@ -1,4 +1,5 @@
 import 'package:fire/Features/Posts/Domain/Entities/post_entity.dart';
+import 'package:fire/Features/Posts/Presentation/Pages/post_detail.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -19,9 +20,10 @@ class LoadedPost extends StatelessWidget {
               posts[index].body,
               style: const TextStyle(fontSize: 18),
             ),
-            onTap: () {}, //ToDo impl
+            onTap: () =>Navigator.push(context,MaterialPageRoute(builder: (context) => PostDetail(post: posts[index], context: context,),)),
             contentPadding: const EdgeInsets.symmetric(horizontal: 10),
           );
+          
         },
         separatorBuilder: (context, index) =>
             const Divider(thickness: 1, color: Colors.grey),

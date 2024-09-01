@@ -28,7 +28,7 @@ class PostRepoImpl implements PostRepo {
   }
 
   @override
-  Future<Either<Failures, Unit>> deleteposts(int id) async {
+  Future<Either<Failures, Unit>> deleteposts(String id) async {
     return getFunction(() async {
       return await postRemoteDataSource.deletePost(id.toString());
     });

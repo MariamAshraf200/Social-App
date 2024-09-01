@@ -16,7 +16,7 @@ class AddPostEvent extends AddDelEvent {
 }
 
 class DeletePostEvent extends AddDelEvent {
-  final int postId;
+  final String postId;
 
   DeletePostEvent({required this.postId});
   @override
