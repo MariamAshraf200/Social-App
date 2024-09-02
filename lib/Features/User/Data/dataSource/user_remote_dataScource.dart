@@ -7,7 +7,7 @@ abstract class UserRemoteDatascource {
   Future<UserModel> LoginIn(String email, String password);
   Future<UserModel> SignUp(
       String name, String email, String phone, String password);
-  Future<UserModel> GetAllUsers();
+  Future<List<UserModel>> GetAllUsers();
   Future<void> ResetPassword(String email);
   Future<void> LogOut();
 }
@@ -19,15 +19,18 @@ class UserRemoteDataScource implements UserRemoteDatascource {
   UserRemoteDataScource({required this.firestore, required this.firebaseAuth});
 
   @override
-  Future<UserModel> GetAllUsers() {
-    // TODO: implement GetAllUsers
-    throw UnimplementedError();
+  Future<List <UserModel>> GetAllUsers() async {
+    try{
+      final snapshot = await FirebaseFirestore.instance.collection('users').get();
+      return snapshot.docs.map((doc)=>UserModel.fromJson(doc.data())).toList();
+    }catch(e){
+      throw serverExceptions();
+    }
   }
 
   @override
-  Future<void> LogOut() {
-    // TODO: implement LogOut
-    throw UnimplementedError();
+  Future<void> LogOut() async {
+ await firebaseAuth.signOut();
   }
 
   @override
@@ -52,9 +55,12 @@ class UserRemoteDataScource implements UserRemoteDatascource {
   }
 
   @override
-  Future<void> ResetPassword(String email) {
-    // TODO: implement ResetPassword
-    throw UnimplementedError();
+  Future<void> ResetPassword(String email) async {
+    try{
+      await firebaseAuth.sendPasswordResetEmail(email: email);
+    }catch (e){
+      throw serverExceptions();
+    }
   }
 
   @override
