@@ -39,7 +39,6 @@ class PostRepoImpl implements PostRepo {
     if (await networkInfo.isConnected) {
       try {
         final remotePost = await postRemoteDataSource.getAllPosts();
-        // Await the Future before passing it to the cache
         await postLocalDataSource.cachPost(remotePost);
         return Right(remotePost);
       } on serverExceptions {
