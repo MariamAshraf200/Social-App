@@ -1,7 +1,7 @@
-import 'package:fire/Features/Posts/Presentation/Pages/post_page.dart';
 import 'package:fire/Features/Posts/Presentation/bloc/AddDelete/add_del_bloc.dart';
 import 'package:fire/Features/Posts/Presentation/bloc/post/post_bloc.dart';
 import 'package:fire/Features/Posts/Presentation/bloc/post/post_event.dart';
+import 'package:fire/Features/User/Presentation/pages/login.dart';
 import 'package:fire/global/app_them.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: 'Social App',
           theme: appTheme,
-          home:  const PostPage(),
+          home:   LoginPage(),
           debugShowCheckedModeBanner: false,
         ));
   }
